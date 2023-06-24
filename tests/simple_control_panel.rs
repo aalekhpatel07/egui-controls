@@ -1,33 +1,30 @@
 use egui_controls::ControlPanel;
 
 use eframe::egui;
-use serde::{Serialize, Deserialize};
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Default, Copy, Clone, Serialize, Deserialize, ControlPanel)]
 pub struct Settings {
     /// Some description for alpha. This could be really long or short.
-    #[control(slider(min=0.0, max=1.0))]
+    #[control(slider(min = 0.0, max = 1.0))]
     pub alpha: f64,
     /// Some description for beta. This could be really long or short.
-    #[control(slider(min=0, max=10))]
+    #[control(slider(min = 0, max = 10))]
     pub beta: usize,
 }
 
 #[derive(Default)]
 pub struct MyApp {
-    pub settings: Settings
+    pub settings: Settings,
 }
 
 impl eframe::App for MyApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
-        egui::CentralPanel::default()
-        .show(ctx, |ui: &mut egui::Ui| {
+        egui::CentralPanel::default().show(ctx, |ui: &mut egui::Ui| {
             ui.add(self.settings);
         });
     }
 }
-
 
 fn main() {
     let options = eframe::NativeOptions {

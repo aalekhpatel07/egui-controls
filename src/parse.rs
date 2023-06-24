@@ -1,15 +1,11 @@
+use proc_macro::TokenStream;
+use proc_macro2::TokenStream as TokenStream2;
 
-
-use proc_macro::{TokenStream};
-use proc_macro2::{TokenStream as TokenStream2};
-
-use syn::{*};
 use quote::{quote, ToTokens};
+use syn::*;
 
 fn parse_doc_comments_from_fields(fields: &Fields) -> impl Iterator<Item = String> + '_ {
-    fields
-    .iter()
-    .map(|field| {
+    fields.iter().map(|field| {
         field
             .attrs
             .iter()
@@ -17,7 +13,11 @@ fn parse_doc_comments_from_fields(fields: &Fields) -> impl Iterator<Item = Strin
                 if let Meta::NameValue(MetaNameValue { path, value, .. }) = &attr.meta {
                     if path.segments.iter().any(|segment| segment.ident == "doc") {
                         // Some segment has "doc" so assume this is field has a doc comment.
-                        if let Expr::Lit(ExprLit { lit: Lit::Str(lit_str), .. }) = value {
+                        if let Expr::Lit(ExprLit {
+                            lit: Lit::Str(lit_str),
+                            ..
+                        }) = value
+                        {
                             let mut raw_token = lit_str.token().to_string();
                             if let Some(stripped) = raw_token.strip_prefix('\"') {
                                 raw_token = stripped.to_string();
@@ -36,7 +36,6 @@ fn parse_doc_comments_from_fields(fields: &Fields) -> impl Iterator<Item = Strin
 }
 
 fn parse_widgets_from_fields(fields: &Fields) -> impl Iterator<Item = TokenStream2> + '_ {
-
     let field_type = fields.iter().map(|field| &field.ty);
 
     fields.iter().zip(field_type.into_iter())
@@ -93,9 +92,7 @@ fn parse_widgets_from_fields(fields: &Fields) -> impl Iterator<Item = TokenStrea
         })
 }
 
-
 pub fn expand(input: DeriveInput) -> TokenStream {
-
     let Data::Struct(DataStruct { fields, .. }) = &input.data else {
         panic!("expected a struct");
     };
@@ -119,7 +116,7 @@ pub fn expand(input: DeriveInput) -> TokenStream {
                     .clone()
                 });
 
-                let mut state = 
+                let mut state =
                     state
                     .lock()
                     .unwrap();
@@ -132,9 +129,9 @@ pub fn expand(input: DeriveInput) -> TokenStream {
                     ui.heading("Setting");
                     ui.heading("Value");
                     ui.heading("Description");
-                    
+
                     ui.end_row();
-                    
+
                     #(
                         {
                             ui.label(stringify!(#field_name));
