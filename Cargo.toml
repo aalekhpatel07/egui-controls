@@ -13,15 +13,19 @@ categories = ["gui", "game-development"]
 [lib]
 proc-macro = true
 
+[[example]]
+path = "examples/basic_control_panel.rs"
+name = "basic_control_panel"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 egui = { version = "0.2", features = ["serde"] }
 quote = "1.0.28"
 syn = { version = "2.0.18", features = ["full", "fold", "extra-traits"] }
-eframe = { version = "0.22", features = ["serde", "persistence"] }
 serde = { version = "1.0.164", features = ["derive"] }
 proc-macro2 = "1.0.60"
 
 [dev-dependencies]
+eframe = { version = "0.22", features = ["serde", "persistence"] }
 # eframe = { version = "0.22", features = ["serde", "persistence"] }
