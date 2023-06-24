@@ -30,7 +30,7 @@ pub struct CirclePackingAlgorithmConfig {
     #[control(textbox)]
     pub circle_label: String,
     /// Some global constant that should definitely only take on this value.
-    pub non_changing_global_value: i8
+    pub non_changing_global_value: i8,
 }
 
 /// Some initial values for the config that make sense.
@@ -40,7 +40,7 @@ impl Default for CirclePackingAlgorithmConfig {
             radius: 12.0,
             max_overlap_count: 10,
             circle_label: "Some text".to_string(),
-            non_changing_global_value: 42
+            non_changing_global_value: 42,
         }
     }
 }
@@ -49,7 +49,7 @@ use eframe::{egui, Frame};
 
 #[derive(Debug, Clone, Default)]
 pub struct MyApp {
-    settings: CirclePackingAlgorithmConfig
+    settings: CirclePackingAlgorithmConfig,
 }
 
 impl eframe::App for MyApp {

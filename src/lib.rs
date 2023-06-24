@@ -3,8 +3,6 @@ mod parse;
 use proc_macro::TokenStream;
 use syn::{parse_macro_input, DeriveInput};
 
-
-
 /// # ControlPanel
 ///
 /// Deriving ControlPanel on a struct generates a control

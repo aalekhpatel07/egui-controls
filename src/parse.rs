@@ -1,49 +1,44 @@
-use proc_macro::{TokenStream};
+use proc_macro::TokenStream;
 use proc_macro2::TokenStream as TokenStream2;
 
 use quote::{quote, ToTokens};
-use syn::{Fields, Meta, MetaNameValue, Expr, ExprLit, Lit, MetaList, DeriveInput, Data, DataStruct};
+use syn::{
+    Data, DataStruct, DeriveInput, Expr, ExprLit, Fields, Lit, Meta, MetaList, MetaNameValue,
+};
 
 /// Parse struct fields into an iterator over the
 /// doc comments of fields in the order of definition.
 fn parse_doc_comments_from_fields(fields: &Fields) -> impl Iterator<Item = String> + '_ {
-    fields
-        .iter()
-        .map(|field| {
-
+    fields.iter().map(|field| {
         let mut doc_comments = vec![];
 
         // Every individual doc comment is an attr.
-        field
-            .attrs
-            .iter()
-            .for_each(|attr| {
-                if let Meta::NameValue(MetaNameValue { path, value, .. }) = &attr.meta {
-                    path
-                    .segments
-                    .iter()
-                    .for_each(|segment| {
-                        if segment.ident == "doc" {
-                            if let Expr::Lit(ExprLit {
-                                 lit: Lit::Str(lit_str),
-                             .. }) = value {
-                                let mut raw_token = lit_str.token().to_string();
-                                if let Some(stripped) = raw_token.strip_prefix('\"') {
-                                    raw_token = stripped.to_string();
-                                }
-                                if let Some(stripped) = raw_token.strip_suffix('\"') {
-                                    raw_token = stripped.to_string();
-                                }
-                                // Collect every line of doc-comment.
-                                doc_comments.push(raw_token.trim().to_string());
+        field.attrs.iter().for_each(|attr| {
+            if let Meta::NameValue(MetaNameValue { path, value, .. }) = &attr.meta {
+                path.segments.iter().for_each(|segment| {
+                    if segment.ident == "doc" {
+                        if let Expr::Lit(ExprLit {
+                            lit: Lit::Str(lit_str),
+                            ..
+                        }) = value
+                        {
+                            let mut raw_token = lit_str.token().to_string();
+                            if let Some(stripped) = raw_token.strip_prefix('\"') {
+                                raw_token = stripped.to_string();
                             }
+                            if let Some(stripped) = raw_token.strip_suffix('\"') {
+                                raw_token = stripped.to_string();
+                            }
+                            // Collect every line of doc-comment.
+                            doc_comments.push(raw_token.trim().to_string());
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
+        });
 
         if doc_comments.is_empty() {
-            return "No doc comment found".to_string()
+            return "No doc comment found".to_string();
         }
         doc_comments.join(" ")
     })
@@ -51,7 +46,6 @@ fn parse_doc_comments_from_fields(fields: &Fields) -> impl Iterator<Item = Strin
 
 /// Parse fields for the widgets to generate from the `#[control]` field attributes.
 fn parse_widgets_from_fields(fields: &Fields) -> impl Iterator<Item = TokenStream2> + '_ {
-
     fields
     .iter()
     .flat_map(|field| {
