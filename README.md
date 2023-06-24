@@ -8,6 +8,12 @@ tweaking the parameters in real-time.
 
 ## Usage
 
+```sh
+cargo add egui-controls
+```
+
+## Example
+
 Suppose your typical config data that contains the parameters for the algorithm looks like this:
 
 ```rust
