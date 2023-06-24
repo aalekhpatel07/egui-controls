@@ -38,7 +38,7 @@ impl Default for CirclePackingAlgorithmConfig {
 }
 ```
 
-Now just derive [egui_controls::ControlPanel](https://github.com/aalekhpatel07/egui-controls/blob/main/src/lib.rs) for your data, and
+Now, just derive [egui_controls::ControlPanel](https://github.com/aalekhpatel07/egui-controls/blob/main/src/lib.rs) for your data, and
 sprinkle in some `#[control]` attributes on the fields you'd like to be interactive in the UI:
 ```diff
 + use egui_controls::ControlPanel;
@@ -61,9 +61,7 @@ pub struct CirclePackingAlgorithmConfig {
     pub non_changing_global_value: i8
 }
 ```
-
 Now, use `config.ui(ui)` to embed that in any UI section you're building with `eframe::egui`.
-
 ```rust
 use eframe::{egui, Frame};
 
@@ -98,7 +96,12 @@ pub fn main() {
     let app = MyApp::default();
     ::eframe::run_native("readme", options, Box::new(|_| Box::new(app))).unwrap();
 }
-
-
-
 ```
+## Output
+
+This generates a simple control panel interface for the `CirclePackingAlgorithmConfig`
+and we can tune the values via the sliders.
+
+Note: You can run the `readme` example to generate the same output.
+
+<img src="docs/example_screenshot.png" title="Control Panel interface generated for CirclePackingAlgorithmConfig" width="745" alt="The Control Panel interface generated for CirclePackingAlgorithmConfig."/>
