@@ -107,7 +107,7 @@ pub fn expand(input: DeriveInput) -> TokenStream {
     let setting_heading = "Setting";
     let value_heading = "Value";
     let description_heading = "Description";
-    
+
     let expanded = quote! {
 
         impl #struct_name {

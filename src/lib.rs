@@ -8,10 +8,11 @@ use syn::{parse_macro_input, DeriveInput};
 /// # ControlPanel
 ///
 /// Deriving ControlPanel on a struct generates a control
-/// panel widget (based on egui) that lets you interact with the fields
-/// of the struct.
+/// panel pseudo-widget (based on [eframe::egui]) that lets you tweak the fields
+/// of the struct in real-time.
 ///
-/// This exposes a method `ui` on the underlying struct.
+/// This exposes a method `ui` on the underlying struct that can be passed an
+/// `&mut eframe::egui::Ui` to paint the panel to the UI.
 ///
 /// # Note:
 /// This can be especially useful if you're implementing
@@ -22,9 +23,8 @@ use syn::{parse_macro_input, DeriveInput};
 /// # Examples
 /// ```no_run
 /// use egui_controls::ControlPanel;
-/// use serde::{Serialize, Deserialize};
 ///
-/// #[derive(Debug, Clone, Serialize, Deserialize, ControlPanel)]
+/// #[derive(Debug, Clone, ControlPanel)]
 /// pub struct CirclePackingAlgorithmConfig {
 ///     /// The radius of the circles to pack.
 ///     #[control(slider(2. ..= 15.0))]

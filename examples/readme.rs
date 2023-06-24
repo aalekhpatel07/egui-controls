@@ -1,25 +1,33 @@
-# egui-controls
+//! This is the example from README.md
+//! and it demonstrates the usage of `ControlPanel`
+//! derivable proc-macro along with
+//! the `#[control]` field attributes.
+//!
+//! In this example we'll generate a control panel
+//! UI for a [CirclePackingAlgorithmConfig] object
+//! that exposes the following fields:
+//!     - `radius: f64` is controllable by a slider
+//!         and has range `2.0 ..= 15.0`,
+//!     - `max_overlap_count: usize` is controllable by a slider
+//!         and has range `0 ..= 20`,
+//!     - `circle_label: String` is controllable as a textbox,
+//!     - `non_changing_global_value: i8` is a non-interactive field.
 
-`egui-controls` is a Rust library that provides a `ControlPanel` proc-macro to generate a simple control panel interface using the [egui](https://github.com/emilk/egui) immediate mode graphical user interface library.
+use egui_controls::ControlPanel;
 
-## Motivation
-You're implementing a Rust algorithm that has various tunable parameters, and would like to inspect the output by
-tweaking the parameters in real-time.
-
-## Usage
-
-Suppose your typical config data that contains the parameters for the algorithm looks like this:
-
-```rust
-#[derive(Debug, Clone)]
+/// Some config data for the
+#[derive(Debug, Clone, ControlPanel)]
 pub struct CirclePackingAlgorithmConfig {
     /// The radius of the circles to pack.
+    #[control(slider(2.0 ..= 15.0))]
     pub radius: f64,
-    /// If circles overlap, then how many should be allowed 
+    /// If circles overlap, then how many should be allowed
     /// to overlap at most.
+    #[control(slider(0 ..= 20))]
     pub max_overlap_count: usize,
     /// Once we find the circles, label them with the
     /// given name.
+    #[control(textbox)]
     pub circle_label: String,
     /// Some global constant that should definitely only take on this value.
     pub non_changing_global_value: i8
@@ -36,35 +44,7 @@ impl Default for CirclePackingAlgorithmConfig {
         }
     }
 }
-```
 
-Now just derive [egui_controls::ControlPanel](https://github.com/aalekhpatel07/egui-controls/blob/main/src/lib.rs) for your data, and
-sprinkle in some `#[control]` attributes on the fields you'd like to be interactive in the UI:
-```diff
-+ use egui_controls::ControlPanel;
-
-- #[derive(Debug, Clone)]
-+ #[derive(Debug, Clone, ControlPanel)]
-pub struct CirclePackingAlgorithmConfig {
-    /// The radius of the circles to pack.
-    + #[control(slider(2. ..= 15.0))]
-    pub radius: f64,
-    /// If circles overlap, then how many should be allowed 
-    /// to overlap at most.
-    + #[control(slider(0 ..= 20))]
-    pub max_overlap_count: usize,
-    /// Once we find the circles, label them with the
-    /// given name.
-    + #[control(textbox)]
-    pub circle_label: String,
-    /// Some global constant that should definitely only take on this value.
-    pub non_changing_global_value: i8
-}
-```
-
-Now, use `config.ui(ui)` to embed that in any UI section you're building with `eframe::egui`.
-
-```rust
 use eframe::{egui, Frame};
 
 #[derive(Debug, Clone, Default)]
@@ -98,7 +78,3 @@ pub fn main() {
     let app = MyApp::default();
     ::eframe::run_native("readme", options, Box::new(|_| Box::new(app))).unwrap();
 }
-
-
-
-```
