@@ -47,15 +47,15 @@ sprinkle in some `#[control]` attributes on the fields you'd like to be interact
 + #[derive(Debug, Clone, ControlPanel)]
 pub struct CirclePackingAlgorithmConfig {
     /// The radius of the circles to pack.
-    + #[control(slider(2. ..= 15.0))]
++   #[control(slider(2. ..= 15.0))]
     pub radius: f64,
     /// If circles overlap, then how many should be allowed 
     /// to overlap at most.
-    + #[control(slider(0 ..= 20))]
++   #[control(slider(0 ..= 20))]
     pub max_overlap_count: usize,
     /// Once we find the circles, label them with the
     /// given name.
-    + #[control(textbox)]
++   #[control(textbox)]
     pub circle_label: String,
     /// Some global constant that should definitely only take on this value.
     pub non_changing_global_value: i8
