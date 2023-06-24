@@ -45,7 +45,7 @@ fn parse_doc_comments_from_fields(fields: &Fields) -> impl Iterator<Item = Strin
         if doc_comments.is_empty() {
             return "No doc comment found".to_string()
         }
-        return doc_comments.join(" ");
+        doc_comments.join(" ")
     })
 }
 
