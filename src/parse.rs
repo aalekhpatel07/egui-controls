@@ -1,9 +1,9 @@
-use proc_macro2;
 
-use proc_macro::{TokenStream, Span};
+
+use proc_macro::{TokenStream};
 use proc_macro2::{TokenStream as TokenStream2};
 
-use syn::{*, token::Struct, parse::Parse, parse::ParseStream};
+use syn::{*};
 use quote::{quote, ToTokens};
 
 fn parse_doc_comments_from_fields(fields: &Fields) -> impl Iterator<Item = String> + '_ {
