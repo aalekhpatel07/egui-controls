@@ -1,0 +1,15 @@
+[package]
+name = "egui-controls"
+version = "0.1.0"
+edition = "2021"
+license-file = "LICENSE"
+readme = "README.md"
+description = "Helps build a control panel with egui."
+authors = ["Aalekh Patel <aalekh.gwpeck.7998@icloud.com>"]
+repository = "https://github.com/aalekhpatel07/egui-controls"
+keywords = ["egui", "control-panel", "controls"]
+categories = ["gui", "game-development"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
