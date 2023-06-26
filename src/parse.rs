@@ -105,7 +105,7 @@ pub fn expand(input: DeriveInput) -> TokenStream {
     let expanded = quote! {
 
         impl #struct_name {
-            fn ui(&mut self, ui: &mut ::eframe::egui::Ui) -> ::eframe::egui::Response {
+            pub fn ui(&mut self, ui: &mut ::eframe::egui::Ui) -> ::eframe::egui::Response {
 
                 ::eframe::egui::Grid::new(#grid_id)
                 .num_columns(3)
